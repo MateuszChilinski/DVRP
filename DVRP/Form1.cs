@@ -11,7 +11,7 @@ namespace DVRP
 
     public partial class Form1 : Form
     {
-        private bool testing = false;
+        private bool testing = true;
         private int scale = 10;
         private Graph G;
         private List<List<int>> solution;
@@ -61,7 +61,7 @@ namespace DVRP
         {
             if (!testing) return;
             G = new Graph();
-            CapacitatedVehicleRoutingProblem problem = CapacitatedVehicleRoutingProblem.FromFile("A-n53-k7.vrp");
+            CapacitatedVehicleRoutingProblem problem = CapacitatedVehicleRoutingProblem.FromFile("Benchmarks/A-n53-k7.vrp");
             var nodes = problem.NodeProvider.GetNodes();
             for (int i = 0; i < nodes.Count; i++)
             {
