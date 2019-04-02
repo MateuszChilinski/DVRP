@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using TspLibNet;
 using TspLibNet.TSP;
@@ -18,7 +19,6 @@ namespace DVRP
         public Form1()
         {
             InitializeComponent();
-            RunBenchmarks();
             Recalculate();
         }
 
@@ -77,40 +77,6 @@ namespace DVRP
             solution = G.FindDVRPSolution();
             double usage = G.CalculateUsage(solution);
             textBox1.Text = usage.ToString();
-        }
-
-        private void RunCalculation(string file, string timeStamp)
-        {
-            TspFile tspfile = TspFile.Load(file);
-            CapacitatedVehicleRoutingProblem problem = CapacitatedVehicleRoutingProblem.FromFile(file);
-            Graph Graph = new Graph(_maxDemand: tspfile.Capacity);
-            var nodes = problem.NodeProvider.GetNodes();
-            for (int i = 0; i < nodes.Count; i++)
-            {
-                TspLibNet.Graph.Nodes.Node2D node = (TspLibNet.Graph.Nodes.Node2D)nodes[i];
-                double demand = problem.DemandProvider.GetDemand(nodes[i]);
-                Vertice v = new Vertice();
-                v.X = node.X;
-                v.Y = node.Y;
-                v.Demand = demand;
-                Graph.Vertices.Add(v);
-            }
-            Graph.RecalculateVertices();
-            solution = Graph.FindDVRPSolution();
-            double usage = Graph.CalculateUsage(solution);
-            string paramsCSV = file + "," + Graph.GetParamsCSV() + ",\"" + tspfile.Comment + "\"," + usage + "\n";
-            System.IO.File.AppendAllText(@"Benchmarks" + timeStamp + ".csv", paramsCSV);
-        }
-        private void RunBenchmarks()
-        {
-            String timeStamp = GetTimestamp(DateTime.Now);
-            string[] filePaths = Directory.GetFiles(@"Benchmarks");
-            foreach(string file in filePaths)
-                RunCalculation(file, timeStamp);
-        }
-        public static String GetTimestamp(DateTime value)
-        {
-            return value.ToString("yyyyMMddHHmmssffff");
         }
         private void button1_Click(object sender, EventArgs e)
         {

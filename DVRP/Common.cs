@@ -21,14 +21,14 @@ namespace DVRP
         private readonly Random rnd = new Random();
 
         int kMax = 20; // number of trucks
-        double maxDistance = 193.1; // max distance by car
+        public double maxDistance { get; set; } // max distance by car
         double maxDemand = 100; // sum of demand car can do
         int iterations = 500;
         double ro = 0.8; // wspolczynnik odparowywania fermonu
         double Q = 100;
         double alpha = 2;
         double beta = 5;
-        public Graph(int _kMax = 20, double _maxDistance = 200, double _maxDemand = 100, int _iterations = 500, double _ro = 0.5, double _Q = 100, double _alpha = 1, double _beta = 5)
+        public Graph(int _kMax = 20, double _maxDistance = 500, double _maxDemand = 100, int _iterations = 500, double _ro = 0.5, double _Q = 100, double _alpha = 1, double _beta = 5)
         {
             Vertices = new List<Vertice>();
             Edges = new List<List<Edge>>();
